@@ -1,0 +1,39 @@
+{
+  "name": "editorjs-rs-table",
+  "private": true,
+  "version": "0.0.1",
+  "keywords": [
+    "tool",
+    "table",
+    "editor.js",
+    "editorjs"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "build:tsc": "tsc ./src/index.ts"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.24.1",
+    "@babel/core": "^7.24.4",
+    "@babel/preset-env": "^7.24.4",
+    "css-loader": "^7.1.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.2.2",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kudryavka1013/editorjs-rs-table.git"
+  },
+  "author": "kudryavka1013",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kudryavka1013/editorjs-rs-table/issues"
+  },
+  "homepage": "https://github.com/kudryavka1013/editorjs-rs-table#readme",
+  "description": ""
+}
