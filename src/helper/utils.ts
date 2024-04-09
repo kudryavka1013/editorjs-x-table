@@ -1,50 +1,76 @@
+/* DOM base action utils */
+const make = <T extends keyof HTMLElementTagNameMap>(
+  tagName: T,
+  className?: string | string[]
+) => {
+  const elem = document.createElement(tagName);
+  if (className) addClass(elem, className);
+  return elem as HTMLElementTagNameMap[T];
+};
+
+const batchAppend = (
+  wrapper: HTMLElement,
+  elem: HTMLElement | HTMLElement[]
+) => {
+  Array.isArray(elem)
+    ? elem.forEach((i) => wrapper.append(i))
+    : wrapper.append(elem);
+};
+
+const linkAppend = (...elems: HTMLElement[]) => {
+  elems.reduce((p, c) => p.appendChild(c));
+};
+
+const addClass = (elem: HTMLElement, className: string | string[]) => {
+  Array.isArray(className)
+    ? elem.classList.add(...className)
+    : elem.classList.add(className);
+};
+
+
+/* table action utils */
 /**
- * @description: 创建TABLE，以及内部的COLGROUP，TBODY
- * @return {*} 返回 table，colgroup，tbody，外层div
+ * @description: Create and compose base table elements
+ * @return {*} table，colgroup，tbody，wrapper div
  */
-export const createTableElems = () => {
-  const wrapper = document.createElement("div");
-  const table = document.createElement("table");
-  table.classList.add("editable-table");
-  const colgroup = document.createElement("colgroup");
-  const tbody = document.createElement("tbody");
-  table.appendChild(colgroup);
-  table.appendChild(tbody);
-  wrapper.appendChild(table);
+export const createTableElements = () => {
+  const wrapper = make("div", "rs-table-wrapper");
+  const scrollableWrapper = make("div", "rs-table-scrollable-wrapper");
+  const scrollableContainer = make("div", "rs-table-scrollable-container");
+  const table = make("table", "rs-table");
+  const colgroup = make("colgroup", "rs-table-colgroup");
+  const tbody = make("tbody", "rs-table-tbody");
+
+  batchAppend(table, [colgroup, tbody]);
+  linkAppend(wrapper, scrollableWrapper, scrollableContainer, table);
+
   return { wrapper, table, colgroup, tbody };
 };
 
 /**
- * @description: 创建TR
- * @return {HTMLTableRowElement} 返回一个TR元素
+ * @description: create tr and fill cells
+ * @return {HTMLTableRowElement} return tr element
  */
-export const createTableRow = () => {
-  const tr = document.createElement("tr");
-  return tr;
+export const createRow = (numberOfColumns: number) => {
+  const rowElem = make("tr", "rs-table-row");
+  for (let i = 1; i <= numberOfColumns; i++) {
+    batchAppend(rowElem, createCell());
+  }
+  return rowElem;
 };
 
 /**
- * @description: 创建CELL，包括TD以及内部的DIV
- * @return {HTMLTableCellElement} 返回一个TD元素
+ * @description: create table cell
+ * @return {HTMLTableCellElement} return td element
  */
 export const createCell = () => {
-  /* td */
-  const td = document.createElement("td");
-  td.classList.add("editable-table-cell");
-  /* content-wrapper */
-  const contentWrapper = document.createElement("div");
-  contentWrapper.classList.add("content-wrapper");
-  /* safe-area */
-  const safeArea = document.createElement("div");
-  safeArea.classList.add("safe-area");
-  /* content-block */
-  const contentBlock = document.createElement("div");
-  contentBlock.classList.add("content-block");
+  const td = make("td", "rs-cell");
+  const contentWrapper = make("div", "rs-cell-content-wrapper");
+  const safeArea = make("div", "rs-cell-safe-area");
+  const contentBlock = make("div", "rs-cell-content-block");
   contentBlock.setAttribute("contentEditable", "true");
-  /* 拼装 */
-  safeArea.appendChild(contentBlock);
-  contentWrapper.appendChild(safeArea);
-  td.appendChild(contentWrapper);
+  /* compose element */
+  linkAppend(td, contentWrapper, safeArea, contentBlock);
 
   return td;
 };
@@ -52,11 +78,11 @@ export const createCell = () => {
 export const createTableOperationBar = (rows: number, cols: number) => {
   console.log(rows, cols);
   /* operation bar */
-  const operationBar = document.createElement("div");
-  const headerBarCol = document.createElement("div");
-  const headerBarRow = document.createElement("div");
-  const insertBarCol = document.createElement("div");
-  const insertBarRow = document.createElement("div");
+  const operationBar = make("div");
+  const headerBarCol = make("div");
+  const headerBarRow = make("div");
+  const insertBarCol = make("div");
+  const insertBarRow = make("div");
   return {
     operationBar,
     headerBarCol,

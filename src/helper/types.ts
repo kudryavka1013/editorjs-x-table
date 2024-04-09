@@ -1,5 +1,5 @@
 /* 表格数据 */
-export interface TableDataSchema {
+export interface RsTableDataSchema {
   content: string[][];
   colWidth?: number[];
   mergeData: MergeDataSchema[][];
@@ -19,8 +19,4 @@ export interface StyleDataSchema {
   bgColor?: string;
 }
 
-export enum TextAlign {
-  left = 'left',
-  center = 'center',
-  right = 'right',
-}
+export type TextAlign = "left" | "center" | "right";

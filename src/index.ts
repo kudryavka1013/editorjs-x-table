@@ -1,8 +1,10 @@
-import { MergeDataSchema, StyleDataSchema } from './helper/types';
-import RsTable from './table';
+import { MergeDataSchema, StyleDataSchema } from "./helper/types";
+import Table from "./table";
 
-export default class Table {
-  /* 表格基本数据 */
+export default class RsTable {
+  /**
+   * Table data structure
+   */
   data?: {
     content: string[][];
     colWidth?: number[];
@@ -23,20 +25,16 @@ export default class Table {
     this.table = null;
   }
 
+  /**
+   * Plugin Configs
+   */
   static get enableLineBreaks() {
     return true;
   }
 
-  /**
-   * Get Tool toolbox settings
-   * icon - Tool icon's SVG
-   * title - title to show in toolbox
-   *
-   * @returns {{icon: string, title: string}}
-   */
   static get toolbox() {
     return {
-      title: '表格(测试)',
+      title: "表格(测试)",
       icon: '<svg width="18" height="14" viewBox="0 0 18 14"><path d="M2.833 8v1.95a1.7 1.7 0 0 0 1.7 1.7h3.45V8h-5.15zm0-2h5.15V2.35h-3.45a1.7 1.7 0 0 0-1.7 1.7V6zm12.3 2h-5.15v3.65h3.45a1.7 1.7 0 0 0 1.7-1.7V8zm0-2V4.05a1.7 1.7 0 0 0-1.7-1.7h-3.45V6h5.15zM4.533.1h8.9a3.95 3.95 0 0 1 3.95 3.95v5.9a3.95 3.95 0 0 1-3.95 3.95h-8.9a3.95 3.95 0 0 1-3.95-3.95v-5.9A3.95 3.95 0 0 1 4.533.1z"></path></svg>',
     };
   }
@@ -56,11 +54,14 @@ export default class Table {
     };
   }
 
+  /**
+   * onChange Event Callback
+   */
   onChange(
     tableData: string[][],
     tableColWidth: number[],
     tableMergeData: MergeDataSchema[][],
-    tableStyleData: StyleDataSchema[][],
+    tableStyleData: StyleDataSchema[][]
   ) {
     this.data = {
       content: tableData,
@@ -72,15 +73,16 @@ export default class Table {
 
   /**
    * Return Tool's view
-   *
-   * @returns {HTMLDivElement}
    */
   render() {
-    /** creating table */
-    this.table = new RsTable(this.data!);
+    /** Create table instance */
+    this.table = new Table(this.data!);
     return this.table.getWrapper();
   }
 
+  /**
+   * Return Block's data
+   */
   save() {
     const tableData = this.table.getData();
 
