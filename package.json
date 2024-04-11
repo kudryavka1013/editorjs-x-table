@@ -10,8 +10,9 @@
     "editorjs"
   ],
   "scripts": {
-    "build": "eslint . && webpack --mode production",
-    "build:dev": "webpack --mode development --watch"
+    "build": "eslint . && tsc --noEmit && webpack --mode production",
+    "build:dev": "webpack --mode development --watch",
+    "lint": "eslint . && tsc --noEmit"
   },
   "devDependencies": {
     "@babel/cli": "^7.24.1",
