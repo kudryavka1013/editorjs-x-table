@@ -1,55 +1,55 @@
-.rs-table-wrapper {}
+.x-table-wrapper {}
 
-.rs-table-scrollable-wrapper {
+.x-table-scrollable-wrapper {
   padding-top: 28px;
 }
 
-.rs-table-scrollable-container {
+.x-table-scrollable-container {
   position: relative;
 }
 
-.rs-table {
+.x-table {
   display: table;
   border: 1px solid #e8e9e9;
   table-layout: fixed;
 }
 
-.rs-table--fixed {
+.x-table--fixed {
   width: 100%;
 }
 
-.rs-table-cell {
+.x-table-cell {
   display: table-cell;
   border: 1px solid #e8e9e9;
   min-height: 39px;
   outline: none;
 }
 
-.rs-cell-safe-area,
-.rs-cell-content-block {
+.x-cell-safe-area,
+.x-cell-content-block {
   padding: 4px;
   height: 100%;
 }
 
-.rs-table-operation-bar {
+.x-table-operation-bar {
   position: absolute;
   left: 0;
   top: 0;
 }
 
-.rs-table-operation-header-bar {
+.x-table-operation-header-bar {
   background-color: gray;
   position: relative;
   display: flex;
 }
 
-.rs-table-operation-header-bar-col {
+.x-table-operation-header-bar-col {
   height: 10px;
   top: -10px;
   flex-direction: column;
 }
 
-.rs-table-operation-header-bar-row {
+.x-table-operation-header-bar-row {
   width: 10px;
   height: 100%;
   left: -10px;

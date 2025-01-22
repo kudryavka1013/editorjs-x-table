@@ -41,29 +41,29 @@ const addClass = (elem: HTMLElement, className: string | string[]) => {
 /*          - End -         */
 
 const ClassNames = {
-  wrapper: "rs-table-wrapper",
-  scrollableWrapper: "rs-table-scrollable-wrapper",
-  scrollableContainer: "rs-table-scrollable-container",
-  table: "rs-table",
-  tableFixed: "rs-table--fixed",
-  colgroup: "rs-table-colgroup",
-  tbody: "rs-table-tbody",
-  row: "rs-table-row",
-  td: "rs-table-cell",
-  cellContentWrapper: "rs-cell-content-wrapper",
-  cellSafeArea: "rs-cell-safe-area",
-  cellContentBlock: "rs-cell-content-block",
-  operationBar: "rs-table-operation-bar",
-  headerBar: "rs-table-operation-header-bar",
-  headerBarCol: "rs-table-operation-header-bar-col",
-  headerBarRow: "rs-table-operation-header-bar-row",
-  insertBar: "rs-table-insert-bar",
-  insertBarCol: "rs-table-insert-bar-col",
-  insertBarRow: "rs-table-insert-bar-row",
-  insertZone: "rs-table-insert-zone",
-  insertPoint: "rs-table-insert-point",
-  header: "rs-table-header",
-  toolbox: "rs-table-toolbox",
+  wrapper: "x-table-wrapper",
+  scrollableWrapper: "x-table-scrollable-wrapper",
+  scrollableContainer: "x-table-scrollable-container",
+  table: "x-table",
+  tableFixed: "x-table--fixed",
+  colgroup: "x-table-colgroup",
+  tbody: "x-table-tbody",
+  row: "x-table-row",
+  td: "x-table-cell",
+  cellContentWrapper: "x-cell-content-wrapper",
+  cellSafeArea: "x-cell-safe-area",
+  cellContentBlock: "x-cell-content-block",
+  operationBar: "x-table-operation-bar",
+  headerBar: "x-table-operation-header-bar",
+  headerBarCol: "x-table-operation-header-bar-col",
+  headerBarRow: "x-table-operation-header-bar-row",
+  insertBar: "x-table-insert-bar",
+  insertBarCol: "x-table-insert-bar-col",
+  insertBarRow: "x-table-insert-bar-row",
+  insertZone: "x-table-insert-zone",
+  insertPoint: "x-table-insert-point",
+  header: "x-table-header",
+  toolbox: "x-table-toolbox",
 };
 
 /**
@@ -111,7 +111,7 @@ export const createRow = (numberOfColumns: number): HTMLTableRowElement => {
 };
 
 /**
- * @description: Create table cell, including td and some containers
+ * @description: Create table cell, including td and some containex
  */
 const createCell = (): HTMLTableCellElement => {
   const td = make("td", ClassNames.td);

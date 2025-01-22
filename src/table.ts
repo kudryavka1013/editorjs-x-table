@@ -1,4 +1,4 @@
-import { StyleDataSchema, RsTableDataSchema } from "./helper/types";
+import { StyleDataSchema, XTableDataSchema } from "./helper/types";
 import {
   createBaseTableElements,
   createOperationBar,
@@ -8,8 +8,8 @@ import {
   batchAppend,
 } from "./helper/utils";
 
-export default class Table {
-  data?: RsTableDataSchema;
+export default class XTable {
+  data?: XTableDataSchema;
   // DOM Nodes
   wrapper;
   table;
@@ -20,7 +20,7 @@ export default class Table {
   numberOfRows: number;
   numberOfColumns: number;
 
-  constructor(data?: RsTableDataSchema) {
+  constructor(data?: XTableDataSchema) {
     console.log("constructor");
     // init data
     this.data = {
@@ -216,7 +216,7 @@ export default class Table {
 
   getData() {
     console.log("getData");
-    const data: RsTableDataSchema = {
+    const data: XTableDataSchema = {
       content: [],
       colWidth: [],
       mergeData: [],

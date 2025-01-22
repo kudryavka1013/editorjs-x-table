@@ -1,5 +1,5 @@
 {
-  "name": "editorjs-rs-table",
+  "name": "editorjs-x-table",
   "private": true,
   "version": "0.0.1",
   "main": "./dist/bundle.js",
@@ -31,14 +31,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kudryavka1013/editorjs-rs-table.git"
+    "url": "https://github.com/kudryavka1013/editorjs-x-table.git"
   },
   "author": "kudryavka1013",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kudryavka1013/editorjs-rs-table/issues"
+    "url": "https://github.com/kudryavka1013/editorjs-x-table/issues"
   },
-  "homepage": "https://github.com/kudryavka1013/editorjs-rs-table#readme",
+  "homepage": "https://github.com/kudryavka1013/editorjs-x-table#readme",
   "description": "",
   "dependencies": {}
 }

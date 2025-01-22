@@ -1,5 +1,5 @@
 /* 表格数据 */
-export interface RsTableDataSchema {
+export interface XTableDataSchema {
   content: string[][];
   colWidth?: number[];
   mergeData: MergeDataSchema[][];
