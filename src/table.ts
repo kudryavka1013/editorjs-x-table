@@ -1,41 +1,41 @@
-import { StyleDataSchema, XTableDataSchema } from "./helper/types";
+import BaseTable from "./baseTable";
+import { ICounter, IXTableData } from "./helper/types";
 import {
   createBaseTableElements,
-  createOperationBar,
   createRow,
   append,
   createHeader,
   batchAppend,
 } from "./helper/utils";
 
-export default class XTable {
-  data?: XTableDataSchema;
-  // DOM Nodes
+export default class XTable extends BaseTable {
+  /* Table data */
+  data?: IXTableData;
+  /* DOM Nodes */
   wrapper;
   table;
   colgroup;
   tbody;
   operationBar;
-  // Counter
-  numberOfRows: number;
-  numberOfColumns: number;
 
-  constructor(data?: XTableDataSchema) {
+  constructor(data?: IXTableData) {
+    super();
     console.log("constructor");
     // init data
     this.data = {
       content: data?.content || [],
       colWidth: data?.colWidth || [],
       mergeData: data?.mergeData || [],
-      styleData: data?.styleData || [],
     };
     // init counter
-    this.numberOfRows = 0;
-    this.numberOfColumns = 0;
+    this.counter = {
+      rows: 0,
+      cols: 0,
+    };
 
     // init base table DOM
-    const { wrapper, colgroup, tbody, table, operationBar } =
-      createBaseTableElements();
+    const { table, colgroup, tbody } = super.getTable();
+    const { wrapper, operationBar } = createBaseTableElements();
     // bind DOM
     this.wrapper = wrapper;
     this.table = table;
@@ -220,7 +220,6 @@ export default class XTable {
       content: [],
       colWidth: [],
       mergeData: [],
-      styleData: [],
     };
 
     for (let i = 1; i <= this.numberOfRows; i++) {

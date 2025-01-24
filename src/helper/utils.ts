@@ -1,46 +1,6 @@
-/* DOM base operation utils */
-const make = <T extends keyof HTMLElementTagNameMap>(
-  tagName: T,
-  className?: string | string[]
-) => {
-  const elem = document.createElement(tagName);
-  if (className) addClass(elem, className);
-  return elem as HTMLElementTagNameMap[T];
-};
+import dom from "./dom";
 
-export const append = <T extends HTMLElement | DocumentFragment>(
-  wrapper: T,
-  elem: HTMLElement | HTMLElement[]
-) => {
-  Array.isArray(elem)
-    ? elem.forEach((i) => wrapper.append(i))
-    : wrapper.append(elem);
-  return wrapper;
-};
-
-export const batchAppend = (
-  wrapper: HTMLElement | DocumentFragment,
-  elem: () => HTMLElement | HTMLElement[],
-  count = 1
-) => {
-  for (let c = 0; c < count; c++) {
-    append(wrapper, elem());
-  }
-};
-
-const linkAppend = (...elems: HTMLElement[]) => {
-  elems.reduce((p, c) => p.appendChild(c));
-};
-
-const addClass = (elem: HTMLElement, className: string | string[]) => {
-  Array.isArray(className)
-    ? elem.classList.add(...className)
-    : elem.classList.add(className);
-};
-/* DOM base operation utils */
-/*          - End -         */
-
-const ClassNames = {
+const CSS = {
   wrapper: "x-table-wrapper",
   scrollableWrapper: "x-table-scrollable-wrapper",
   scrollableContainer: "x-table-scrollable-container",
@@ -67,124 +27,167 @@ const ClassNames = {
 };
 
 /**
- * @description: Create and compose base table elements
+ * 创建基本表格元素
  */
-export const createBaseTableElements = () => {
-  const wrapper = make("div", ClassNames.wrapper);
-  const scrollableWrapper = make("div", ClassNames.scrollableWrapper);
-  const scrollableContainer = make("div", ClassNames.scrollableContainer);
-  const table = make("table", [ClassNames.table, ClassNames.tableFixed]);
-  const colgroup = make("colgroup", ClassNames.colgroup);
-  const tbody = make("tbody", ClassNames.tbody);
-  const {
-    operationBar,
-    headerBarCol,
-    headerBarRow,
-    insertBarCol,
-    insertBarRow,
-  } = createOperationBar();
-  linkAppend(
-    wrapper,
-    scrollableWrapper,
-    append(scrollableContainer, [
-      append(table, [colgroup, tbody]),
-      operationBar,
-    ])
-  );
+export const createBaseTable = () => {
+  const table = dom.make("table", [CSS.table, CSS.tableFixed]);
+  const colgroup = dom.make("colgroup", CSS.colgroup);
+  const tbody = dom.make("tbody", CSS.tbody);
+
+  dom.append(table, [colgroup, tbody]);
 
   return {
-    wrapper,
     table,
     colgroup,
     tbody,
-    operationBar: { headerBarCol, headerBarRow, insertBarCol, insertBarRow },
   };
 };
 
 /**
- * @description: Create tr and fill cells
+ * Create table cell
  */
-export const createRow = (numberOfColumns: number): HTMLTableRowElement => {
-  const row = make("tr", ClassNames.row);
-  batchAppend(row, createCell, numberOfColumns);
-  return row;
-};
-
-/**
- * @description: Create table cell, including td and some containex
- */
-const createCell = (): HTMLTableCellElement => {
-  const td = make("td", ClassNames.td);
-  const contentWrapper = make("div", ClassNames.cellContentWrapper);
-  const safeArea = make("div", ClassNames.cellSafeArea);
-  const contentBlock = make("div", ClassNames.cellContentBlock);
-  contentBlock.setAttribute("contentEditable", "true");
-  /* compose element */
-  linkAppend(td, contentWrapper, safeArea, contentBlock);
+const createCell = (
+  renderFunc?: (td: HTMLTableCellElement) => void
+): HTMLTableCellElement => {
+  const td = dom.make("td", CSS.td);
+  if (renderFunc) renderFunc(td);
 
   return td;
 };
 
 /**
- * @description: Create operation bar header
+ * Create tr and fill cells
  */
-export const createHeader = (): HTMLDivElement =>
-  make("div", ClassNames.header);
-
-/**
- * @description: Create operation bar insert zone
- */
-export const createInsertZone = (): HTMLDivElement =>
-  append(
-    make("div", ClassNames.insertZone),
-    make("div", ClassNames.insertPoint)
-  );
-
-/**
- * @description: Create operation bar
- */
-export const createOperationBar = () => {
-  const operationBar = make("div", ClassNames.operationBar);
-  const headerBarCol = make("div", [
-    ClassNames.headerBar,
-    ClassNames.headerBarCol,
-  ]);
-  const headerBarRow = make("div", [
-    ClassNames.headerBar,
-    ClassNames.headerBarRow,
-  ]);
-  const insertBarCol = make("div", [
-    ClassNames.insertBar,
-    ClassNames.insertBarCol,
-  ]);
-  const insertBarRow = make("div", [
-    ClassNames.insertBar,
-    ClassNames.insertBarRow,
-  ]);
-  // batchAppend(headerBarCol, createHeader, cols);
-  // batchAppend(insertBarCol, createInsertZone, cols);
-  // batchAppend(headerBarRow, createHeader, rows);
-  // batchAppend(insertBarRow, createInsertZone, rows);
-
-  append(operationBar, [
-    headerBarCol,
-    headerBarRow,
-    insertBarCol,
-    insertBarRow,
-  ]);
-  return {
-    operationBar,
-    headerBarCol,
-    headerBarRow,
-    insertBarCol,
-    insertBarRow,
-  };
+export const createRow = (
+  numberOfColumns: number,
+  cellRender?: (td: HTMLTableCellElement) => void
+): HTMLTableRowElement => {
+  const row = dom.make("tr", CSS.row);
+  dom.batchAppend(row, () => createCell(cellRender), numberOfColumns);
+  return row;
 };
 
 /**
- * @description: Create toolbox
+ * Create colwidth
  */
-export const createToolbox = () => {
-  const toolbox = make("div", ClassNames.toolbox);
-  return toolbox;
+export const createColWidth = (width?: number): HTMLTableColElement => {
+  const col = dom.make("col");
+  col.style.width = width ? `${width}px` : "100px";
+  return col;
 };
+
+// /**
+//  * @description: Create operation bar header
+//  */
+// export const createHeader = (): HTMLDivElement =>
+//   make("div", CSS.header);
+
+// /**
+//  * @description: Create operation bar insert zone
+//  */
+// export const createInsertZone = (): HTMLDivElement =>
+//   append(
+//     make("div", CSS.insertZone),
+//     make("div", CSS.insertPoint)
+//   );
+
+// /**
+//  * @description: Create operation bar
+//  */
+// export const createOperationBar = () => {
+//   const operationBar = make("div", CSS.operationBar);
+//   const headerBarCol = make("div", [
+//     CSS.headerBar,
+//     CSS.headerBarCol,
+//   ]);
+//   const headerBarRow = make("div", [
+//     CSS.headerBar,
+//     CSS.headerBarRow,
+//   ]);
+//   const insertBarCol = make("div", [
+//     CSS.insertBar,
+//     CSS.insertBarCol,
+//   ]);
+//   const insertBarRow = make("div", [
+//     CSS.insertBar,
+//     CSS.insertBarRow,
+//   ]);
+//   // batchAppend(headerBarCol, createHeader, cols);
+//   // batchAppend(insertBarCol, createInsertZone, cols);
+//   // batchAppend(headerBarRow, createHeader, rows);
+//   // batchAppend(insertBarRow, createInsertZone, rows);
+
+//   append(operationBar, [
+//     headerBarCol,
+//     headerBarRow,
+//     insertBarCol,
+//     insertBarRow,
+//   ]);
+//   return {
+//     operationBar,
+//     headerBarCol,
+//     headerBarRow,
+//     insertBarCol,
+//     insertBarRow,
+//   };
+// };
+
+// /**
+//  * @description: Create toolbox
+//  */
+// export const createToolbox = () => {
+//   const toolbox = make("div", CSS.toolbox);
+//   return toolbox;
+// };
+
+// interface ICreateTableWrapperParams extends ICreateBaseTable {}
+// interface ICreateTableWrapper {
+//   wrapper: HTMLDivElement;
+//   operationBar: {
+//     headerBarCol: HTMLDivElement;
+//     headerBarRow: HTMLDivElement;
+//     insertBarCol: HTMLDivElement;
+//     insertBarRow: HTMLDivElement;
+//   };
+// }
+// /**
+//  * @description: Create wrapper elements and compose with base table
+//  */
+// export const createTableWrapper = (
+//   baseTableElements: ICreateTableWrapperParams
+// ): ICreateTableWrapper => {
+//   const { table, colgroup, tbody } = baseTableElements;
+//   const wrapper = make("div", CSS.wrapper);
+//   const scrollableWrapper = make("div", CSS.scrollableWrapper);
+//   const scrollableContainer = make("div", CSS.scrollableContainer);
+//   // const table = make("table", [CSS.table, CSS.tableFixed]);
+//   // const colgroup = make("colgroup", CSS.colgroup);
+//   // const tbody = make("tbody", CSS.tbody);
+//   const {
+//     operationBar,
+//     headerBarCol,
+//     headerBarRow,
+//     insertBarCol,
+//     insertBarRow,
+//   } = createOperationBar();
+//   linkAppend(
+//     wrapper,
+//     scrollableWrapper,
+//     append(scrollableContainer, [
+//       append(table, [colgroup, tbody]),
+//       operationBar,
+//     ])
+//   );
+
+//   return {
+//     wrapper,
+//     operationBar: { headerBarCol, headerBarRow, insertBarCol, insertBarRow },
+//   };
+// };
+
+// const contentWrapper = make("div", CSS.cellContentWrapper);
+// const safeArea = make("div", CSS.cellSafeArea);
+// const contentBlock = make("div", CSS.cellContentBlock);
+// contentBlock.setAttribute("contentEditable", "true");
+/* compose element */
+// linkAppend(td, contentWrapper, safeArea, contentBlock);

@@ -1,22 +1,20 @@
 /* 表格数据 */
-export interface XTableDataSchema {
+export interface IXTableData {
   content: string[][];
   colWidth?: number[];
-  mergeData: MergeDataSchema[][];
-  styleData: StyleDataSchema[][];
+  mergeData: IMergeData[][];
 }
 
 /* 合并单元格数据 */
-export interface MergeDataSchema {
+export interface IMergeData {
   target: number[]; // 指向的主单元格坐标 x,y
   colspan: number;
   rowspan: number;
 }
 
-/* 样式数据 */
-export interface StyleDataSchema {
-  align?: TextAlign;
-  bgColor?: string;
+/* Counter */
+export interface ICounter {
+  rows: number;
+  cols: number;
 }
-
 export type TextAlign = "left" | "center" | "right";
